@@ -1,4 +1,10 @@
 import os
+class Student:
+    def __init__(self, name, major, graduation_year):
+        self.name = name
+        self.major = major
+        self.graduation_year = graduation_year
+
 
 class StudentManager:
     def __init__(self):
@@ -23,9 +29,11 @@ class StudentManager:
                 print("Invalid input. Please enter a number.")
 
         # Create dictionary contatining student data
-        new_student = {"Name": name,
-                        "Major": major,
-                        "Graduation Year": graduation_year}
+        new_student = Student(
+                                name,
+                                major,
+                                graduation_year
+                                )
     
         # Add student dictionary to list
         self.students.append(new_student)
@@ -33,7 +41,7 @@ class StudentManager:
         # Saves student data to file
         self.save_student()
 
-
+        print(type(self.students[0]))
         print("Student added successfully!\n")
 
     # Displays all the students that are currently stored
@@ -46,9 +54,9 @@ class StudentManager:
     
         # Loop through and display each student
         for index, student in enumerate(self.students, start=1):
-            print(f"{index}. Name: {student['Name']}")
-            print(" Major: ", student["Major"])
-            print(" Graduation Year: ", student["Graduation Year"])
+            print(f"{index + 1}. {student.name}")
+            print("Major: ", student.major)
+            print("Graduation Year: ", student.graduation_year)
             print()
 
     # Searches for the students by name
@@ -63,12 +71,12 @@ class StudentManager:
         for student in self.students:
 
             # Compare student name with search input
-            if student["Name"].lower() == search_name.lower():
+            if student.name.lower() == search_name.lower():
 
                 # Display matching studenyt information
-                print("Name: ", student["Name"])
-                print("Major: ", student["Major"])
-                print("Graduation Year: ", student["Graduation Year"])
+                print("Name: ", student.name)
+                print("Major: ", student.major)
+                print("Graduation Year: ", student.graduation_year)
                 print()
 
                 found = True
@@ -90,7 +98,7 @@ class StudentManager:
         for student in self.students:
 
             # Removes matching student
-            if student["Name"].lower() == delete_student.lower():
+            if student.name.lower() == delete_student.lower():
                 self.students.remove(student)
                 self.save_student()
                 print("Student removed successfully")
@@ -110,9 +118,9 @@ class StudentManager:
         update_name = input("What is the name of the student whose major you want to update? ")
 
         for student in self.students:
-            if student["Name"].lower() == update_name.lower():
+            if student.name.lower() == update_name.lower():
                 new_major = input("What is the student's new major? ")
-                student["Major"] = new_major
+                student.major = new_major
                 print("Student updated successfully \n")
 
                 found = True
@@ -132,7 +140,7 @@ class StudentManager:
         with open(file_path, "w") as file:
 
             for student in self.students:
-                file.write(f"{student['Name']}, {student['Major']}, {student['Graduation Year']}\n")
+                file.write(f"{student.name}, {student.major}, {student.graduation_year}\n")
     
 
     # Loads students that may already exist
@@ -153,11 +161,11 @@ class StudentManager:
                     major = parts[1].strip()
                     graduation_year = int(parts[2].strip())
 
-                    student = {
-                        "Name": name,
-                        "Major": major,
-                        "Graduation Year": graduation_year
-                    }
+                    student = Student(
+                        name,
+                        major,
+                        graduation_year
+                    )
     
                     self.students.append(student)
 
@@ -207,6 +215,8 @@ class StudentManager:
             # Handle invalid menu input
             else:
                 print("Invalid Option")
+
+
 
 student = StudentManager()
 student.load_student()
