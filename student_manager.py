@@ -16,7 +16,11 @@ def load_students():
     # Resets memory
     students.clear()
 
-    file = open("student_manager.txt", "r")
+    try:
+        file = open("student_manager.txt", "r")
+        return
+    except FileNotFoundError:
+        print(f"The file '{file}' does not exist.")
 
     # Loops through lines in the file
     for line in file:
